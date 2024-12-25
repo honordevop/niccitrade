@@ -1,7 +1,8 @@
-import { BsCartCheck, BsCartCheckFill } from "react-icons/bs";
+import { BsCartCheck, BsCartCheckFill, BsCurrencyExchange } from "react-icons/bs";
 import { FaFileInvoiceDollar, FaRegUser } from "react-icons/fa6";
 import { CiMoneyBill } from "react-icons/ci";
 import { MdOutlineLocationOn } from "react-icons/md";
+import { HiOutlineSaveAs } from "react-icons/hi";
 
 
 export const exchange =[
@@ -57,6 +58,45 @@ export const UserTabsLink = [
     icon: <MdOutlineLocationOn />,
     link: "/address",
     slug: "address",
+  },
+  {
+    title: "Profile",
+    icon: <FaRegUser />,
+    link: "/profile",
+    slug: "profile",
+  },
+];
+
+export const AdminTabsLink = [
+  {
+    title: "Manage Users",
+    icon: <BsCartCheck />,
+    link: "/manage",
+    slug: "manage",
+  },
+  {
+    title: "Set Exchange",
+    icon: <BsCurrencyExchange />,
+    link: "/manage/setexchanges",
+    slug: "setexchanges",
+  },
+  {
+    title: "Invoices",
+    icon: <FaFileInvoiceDollar />,
+    link: "/manage/invoices",
+    slug: "invoices",
+  },
+  {
+    title: "Payments",
+    icon: <BsCartCheckFill />,
+    link: "/manage/payments",
+    slug: "payments",
+  },
+  {
+    title: "Deposit Details",
+    icon: <HiOutlineSaveAs />,
+    link: "/manage/depositdetails",
+    slug: "depositdetails",
   },
   {
     title: "Profile",

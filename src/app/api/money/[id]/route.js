@@ -38,15 +38,19 @@ export async function GET(request, { params }) {
 // }
 
 
-export const PATCH = async (request) => {
-  const { email, currency, amount } = await request.json();
+export const PATCH = async (request, { params }) => {
+  const { id } = await params;
+  const { currency, amount } = await request.json();
+  
+  console.log(`${id} ${currency} ${amount}`)
+
 
   try {
     await connect();
 
     // Update the amount for the specific email and currency
     const updatedRecord = await Money.findOneAndUpdate(
-      { email, "moneyrecord.currency": currency }, // Match email and currency
+      { id, "moneyrecord.currency": currency }, // Match email and currency
       { $set: { "moneyrecord.$.amount": amount } }, // Update the amount for the matched currency
       { new: true } // Return the updated document
     );
@@ -63,6 +67,7 @@ export const PATCH = async (request) => {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error?.message)
     return NextResponse.json(
       { message: "Error updating record", error: error.message },
       { status: 500 }

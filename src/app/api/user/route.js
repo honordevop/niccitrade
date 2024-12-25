@@ -19,6 +19,7 @@ export const GET = async (request) => {
     const {password, ...userData} = user
     return NextResponse.json({ user: userData }, { status: 200 });
   } catch (error) {
+    console.log(error.message)
     return NextResponse.json({ message: "Database Error" }, { status: 500 });
   }
 };

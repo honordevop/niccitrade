@@ -15,13 +15,11 @@ import LogOutBtn from "@/components/LogOutBtn";
 // import SuperAdminDesktopMenu from "@/components/SuperAdminDesktopMenu";
 // import AdjustDesktopMenuWidth from "@/components/AdjustDesktopMenuWidth";
 import Loading from "@/components/Loading";
+import DesktopMenu from "@/components/DesktopMenu";
 import SideMenu from "@/components/SideMenu";
 import { IoMenu } from "react-icons/io5";
 import { MdOutlineClose } from "react-icons/md";
 import ProfilePanel from "@/components/ProfilePanel";
-import AdminDesktopMenu from "@/components/AdminDesktopMenu";
-import AdminSideMenu from "@/components/AdminSideMenu";
-import UsersList from "@/components/UsersList";
 // import ProfilePanel from "@/components/ProfilePanel";
 
 const page = () => {
@@ -33,7 +31,7 @@ const page = () => {
 
   const router = useRouter();
 
-  // console.log(session);
+  // console.log(status);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth");
@@ -50,8 +48,7 @@ const page = () => {
   const currentPage = pathname ? pathname.split("/").pop() : "";
   // const { pageLoading, offPageLoading } = useGlobalContext();
 
-  const { data: users, fetchData, error: err } = useRData();
-  const { data: userData, fetchData: fetchAdminData, error: erro } = useRData();
+  const { data: userData, fetchData, error: err } = useRData();
 
   // console.log(session);
 
@@ -78,16 +75,7 @@ const page = () => {
 
   useEffect(() => {
     if (session?.user?.email) {
-      fetchData(`/api/admin/users?email=${session?.user?.email}`);
-    }
-    // return () => {
-    //   setLoading(false);
-    // };
-  }, [session?.user?.email]);
-
-  useEffect(() => {
-    if (session?.user?.email) {
-      fetchAdminData(`/api/user?email=${session?.user?.email}`);
+      fetchData(`/api/user?email=${session?.user?.email}`);
     }
     // return () => {
     //   setLoading(false);
@@ -96,14 +84,14 @@ const page = () => {
 
   // console.log(pageLoading);
 
-  console.log(users);
+  console.log(userData);
 
   useEffect(() => {
-    if (users?.users) {
+    if (userData?.user) {
       // setLoading(false);
       offPageLoading();
     }
-  }, [users?.users]);
+  }, [userData?.user]);
 
   useEffect(() => {
     handleWidthChage();
@@ -149,67 +137,65 @@ const page = () => {
     );
   }
 
-  if (
-    status === "authenticated" &&
-    session?.user?.email === process.env.NEXT_PUBLIC_MAIL_CHECK
-  ) {
-    return (
-      <div className="h-screen w-full relative left-0 flex flex-col items-center">
-        <div className="w-full h-max py-4 px-2 md:px-8 bg-blue-600 flex items-center justify-between">
-          <p
-            className="text-lg md:text-xl font-bold text-white"
-            style={{ paddingLeft: `${addPadding}px` }}
-          >
-            Administrator
-          </p>
+  return (
+    <div className="h-screen w-full relative left-0 flex flex-col items-center">
+      <div className="w-full h-max py-4 px-2 md:px-8 bg-blue-600 flex items-center justify-between">
+        <p
+          className="text-lg md:text-xl font-bold text-white"
+          style={{ paddingLeft: `${addPadding}px` }}
+        >
+          Trade
+        </p>
 
-          <div className="flex items-center justify-center gap-2">
-            <div className="text-sm md:text-base text-white">
-              <p>Hi {userData?.user?.fullname} |</p>
-              {/* <p>{userData?.user?.email}</p> */}
-            </div>
-
-            {/* <FullscreenButton /> */}
-
-            <LogOutBtn />
+        <div className="flex items-center justify-center gap-2">
+          <div className="text-sm md:text-base text-white">
+            <p>Hi {userData?.user?.fullname} |</p>
+            {/* <p>{userData?.user?.email}</p> */}
           </div>
 
-          {showSideMenu && (
-            <AdminSideMenu
-              activateSideMenu={activateSideMenu}
-              showSideMenu={showSideMenu}
-            />
-          )}
-          <div className=" hideDivMin1025 flex">
-            <div
-              className="cursor-pointer text-lg h-max p-1 border bg-blue-950  text-white"
-              onClick={() => activateSideMenu()}
-            >
-              {!showSideMenu ? <IoMenu /> : <MdOutlineClose />}
-            </div>
+          {/* <FullscreenButton /> */}
+
+          <LogOutBtn />
+        </div>
+
+        {showSideMenu && (
+          <SideMenu
+            activateSideMenu={activateSideMenu}
+            showSideMenu={showSideMenu}
+          />
+        )}
+        <div className=" hideDivMin1025 flex">
+          <div
+            className="cursor-pointer text-lg h-max p-1 border bg-blue-950  text-white"
+            onClick={() => activateSideMenu()}
+          >
+            {!showSideMenu ? <IoMenu /> : <MdOutlineClose />}
           </div>
         </div>
-        <div className="w-full h-screen flex items-center font-space_grotesk bg-white ">
-          {/* Left Side - Desktop Menu*/}
-          <AdminDesktopMenu />
+      </div>
+      <div className="w-full h-screen flex items-center font-space_grotesk bg-white ">
+        {/* Left Side - Desktop Menu*/}
+        <DesktopMenu />
 
-          {/* Right Side */}
-          <div className={` w-full h-full`}>
-            {/* Wrapper */}
-            <div className="w-full h-full">
-              <div className="pl-4 w-full  overflow-y-scroll hideScrollBar">
-                <p className="text-xl font-bold ">All Registered users</p>
+        {/* Right Side */}
+        <div className={` w-full h-full`}>
+          {/* Wrapper */}
+          <div className="w-full h-full">
+            <div className="pl-4 w-full h-[85%] md:h-[90%] overflow-y-scroll hideScrollBar">
+              <p className="text-xl font-bold hideDivMax1024">
+                {/* {currentPage.charAt(0).toUpperCase() +
+                    currentPage.slice(1).toLowerCase()} */}
+              </p>
 
-                <div className="">
-                  <UsersList users={users?.users} />
-                </div>
+              <div className="">
+                {/* <ProfilePanel profileData={userData?.user} /> */}
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default page;

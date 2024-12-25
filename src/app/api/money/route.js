@@ -11,7 +11,7 @@ export const GET = async (request) => {
   try {
     await connect();
 
-    const moneyRecord = await Money.find(email && { email }).lean();
+    const moneyRecord = await Money.findOne(email && { email }).lean();
     return NextResponse.json({ moneyRecord }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Database Error" }, { status: 500 });

@@ -25,7 +25,7 @@ const exchange = [
 ];
 
 const baseline = [
-  { name: "BTC(USD)", value: 96971.88 },
+  { name: "BTC(USD)", value: 1.0 },
   { name: "USDT-TRC20", value: 1.0 },
   { name: "USDT-ERC20-BC", value: 1.0 },
   { name: "TRON", value: 0.23 },
