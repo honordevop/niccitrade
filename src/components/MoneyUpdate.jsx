@@ -17,10 +17,12 @@ const MoneyUpdate = ({ hideForm, userEmail }) => {
 
   // Fetch the money records from the server
 
-  console.log(data?.moneyRecord?.moneyrecord);
+  //   console.log(data?.moneyRecord?.moneyrecord);
   // Function to handle the update
   const handleUpdate = async (currency, newAmount, recordId) => {
     setIsLoading(true);
+
+    console.log(`${currency} ${newAmount} ${recordId}`);
 
     try {
       const res = await fetch(`/api/money/${recordId}`, {

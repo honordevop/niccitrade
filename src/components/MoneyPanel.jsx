@@ -12,8 +12,8 @@ const MoneyPanel = ({ profileData }) => {
     error,
   } = useSWR(`/api/money?email=${profileData?.email}`, fetcher);
 
-  // console.log(moneyRecord?.moneyRecord[0]?.moneyrecord);
-  const money = moneyRecord?.moneyRecord[0]?.moneyrecord;
+  console.log(moneyRecord?.moneyRecord?.moneyrecord);
+  const money = moneyRecord?.moneyRecord?.moneyrecord;
   return (
     <div className="mt-5 flex gap-5 flex-wrap">
       {money?.map((mon, i) => (
