@@ -1,15 +1,36 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFlag, FaUserCheck } from "react-icons/fa6";
 import { FaUserAlt } from "react-icons/fa";
 import { LuMenu } from "react-icons/lu";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
   const openNav = () => {
     setShowNav((prev) => !prev);
   };
+
+  const { data: session, status } = useSession();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (
+      status === "authenticated" &&
+      session?.user.email !== process.env.NEXT_PUBLIC_MAIL_CHECK
+    ) {
+      router.push("/exchange");
+    } else if (
+      status === "authenticated" &&
+      session?.user.email === process.env.NEXT_PUBLIC_MAIL_CHECK
+    ) {
+      router.push("/manage");
+    }
+  }, [status, router]);
+
   return (
     <div className="w-full px-5 bg-white min-h-20 flex flex-col items-center justify-center box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 10px 0 rgba(0, 0, 0, 0.06); relative">
       <div className="container flex items-center justify-between">
