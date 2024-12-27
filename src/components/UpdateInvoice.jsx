@@ -14,7 +14,7 @@ const UpdateInvoice = ({ hideForm, userEmail, id }) => {
     data: invoice,
     mutate,
     error,
-  } = useSWR(`/api/invoice/${id}`, fetcher);
+  } = useSWR(`/api/admin/invoice/${id}`, fetcher);
   //   const { data: invoice, fetchData, error } = useRData();
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
@@ -29,6 +29,7 @@ const UpdateInvoice = ({ hideForm, userEmail, id }) => {
   const [accountName, setAccountName] = useState("");
   const [accountNum, setAccountNum] = useState("");
   const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
 
   // Fetch address data when `id` changes
   useEffect(() => {
@@ -74,6 +75,7 @@ const UpdateInvoice = ({ hideForm, userEmail, id }) => {
       setAccountName(invoice?.invoice?.accountname);
       setAccountNum(invoice?.invoice?.accountnum);
       setAddress(invoice?.invoice?.address);
+      setEmail(invoice?.invoice?.email);
     }
   }, [invoice]);
 
@@ -184,6 +186,19 @@ const UpdateInvoice = ({ hideForm, userEmail, id }) => {
                 <div className="flex-1 flex flex-col  justify-center">
                   <h4 className="font-bold">Receiver's Payment Information</h4>
 
+                  <div className="">
+                    <label htmlFor="" className="font-semibold">
+                      Email
+                    </label>
+                    <div className="w-full border border-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0  rounded">
+                      <input
+                        className="mt-1 w-full p-2 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
+                        disabled
+                        name="email"
+                        value={email}
+                      />
+                    </div>
+                  </div>
                   {bank.trim() !== "" && accountNum.length > 1 ? (
                     <div className="flex flex-col gap-2">
                       <div className="">
@@ -235,7 +250,7 @@ const UpdateInvoice = ({ hideForm, userEmail, id }) => {
                           Address
                         </label>
                         <div className="w-full border border-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0  rounded">
-                          <input
+                          <textarea
                             className="mt-1 w-full p-2 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
                             disabled
                             name="address"

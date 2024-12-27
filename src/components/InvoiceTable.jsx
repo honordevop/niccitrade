@@ -63,8 +63,8 @@ const InvoiceTable = ({ invoiceList, mutate }) => {
   };
 
   const icons = [
-    { icon: <MdAutoDelete />, handler: handleDelete },
-    { icon: <FaEye />, handler: handleViewInvoice },
+    { icon: <MdAutoDelete className="text-red-600" />, handler: handleDelete },
+    { icon: <FaEye className="text-green-700" />, handler: handleViewInvoice },
     // { icon: <MdOutlineEditCalendar />, handler: handleViewEditAddress },
   ];
 

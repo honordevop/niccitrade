@@ -179,7 +179,7 @@ const LoginForm = ({ handleShowSignUpForm }) => {
 
               <div className="flex items-center">
                 <input
-                  required={true}
+                  // required={true}
                   type="checkbox"
                   className="mr-2 focus:ring-0 rounded"
                 />

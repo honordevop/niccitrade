@@ -87,7 +87,7 @@ const DepositDetailList = () => {
                 {record?.exchange}
               </td>
               <td className="border border-gray-300 px-4 py-2">
-                <input
+                <textarea
                   type="text"
                   value={record?.address}
                   onChange={(e) => {
@@ -98,7 +98,7 @@ const DepositDetailList = () => {
                       )
                     );
                   }}
-                  className="border rounded px-2 py-1 w-full"
+                  className="border rounded px-2 py-1 w-full text-wrap"
                 />
               </td>
               <td className="border border-gray-300 px-4 py-2 flex gap-2">

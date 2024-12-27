@@ -62,8 +62,8 @@ const AddressTable = ({ addressList, mutate }) => {
   };
 
   const icons = [
-    { icon: <MdAutoDelete />, handler: handleDelete },
-    { icon: <FaEye />, handler: handleViewAddress },
+    { icon: <MdAutoDelete className="text-red-600" />, handler: handleDelete },
+    { icon: <FaEye className="text-green-700" />, handler: handleViewAddress },
     { icon: <MdOutlineEditCalendar />, handler: handleViewEditAddress },
   ];
 

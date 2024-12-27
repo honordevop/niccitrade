@@ -1,9 +1,25 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaEnvelope } from "react-icons/fa6";
 import { MdAddCall } from "react-icons/md";
 
 const Footer = () => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://embed.tawk.to/676f2886af5bfec1dbe36819/1ig53ck6t";
+    script.charset = "UTF-8";
+    script.setAttribute("crossorigin", "*");
+
+    const firstScript = document.getElementsByTagName("script")[0];
+    firstScript.parentNode.insertBefore(script, firstScript);
+
+    return () => {
+      // Cleanup: Remove the script when the component unmounts
+      script.parentNode?.removeChild(script);
+    };
+  }, []);
   return (
     <>
       <div className="px-5 my-10 container flex items-center justify-between">

@@ -48,6 +48,7 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
   const [selectedName, setSelectedName] = useState(options[0]);
   const [receive, setReceive] = useState("");
   const [sendValue, setSendValue] = useState(1000);
+  const [fee, setFee] = useState();
   const [isChecked, setIsChecked] = useState(false);
   const [baseline, setBaseline] = useState([]);
 
@@ -83,7 +84,13 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
     }
   }, [data]);
 
-  // console.log(baseline);
+  useEffect(() => {
+    const percentageFee = sendValue * (2 / 100);
+
+    setFee(percentageFee);
+  }, [sendValue]);
+
+  // console.log(fee);
 
   useEffect(() => {
     const selectedItem = exchange.find((item) => item[selectedKey]);

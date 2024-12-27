@@ -70,7 +70,7 @@ const ViewAddress = ({ hideForm, userEmail, id }) => {
                 </label>
                 <div className="w-full border border-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0  rounded">
                   <textarea
-                    className="w-full p-2 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
+                    className="w-full text-wrap p-2 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
                     disabled
                     name="address"
                     value={addressText}

@@ -59,7 +59,7 @@ const MoneyUpdate = ({ hideForm, userEmail }) => {
   };
 
   return (
-    <div className="p-5">
+    <div className="my-5">
       {/* <h1 className="text-xl font-bold mb-4">Money Records for {email}</h1> */}
       <table className="w-full border-collapse border border-gray-300">
         <thead>

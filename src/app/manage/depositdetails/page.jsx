@@ -25,7 +25,7 @@ import UsersList from "@/components/UsersList";
 import ExchangeForm from "@/components/ExchangeForm";
 import { IoMdAddCircle } from "react-icons/io";
 import SetExchanges from "@/components/SetExchanges";
-import DepositDetailsForm from "@/components/DepositDetailsFrom";
+import DepositDetailsForm from "@/components/DepositDetailsForm";
 import DepositDetailList from "@/components/DepositDetailList";
 // import ProfilePanel from "@/components/ProfilePanel";
 

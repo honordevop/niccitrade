@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { FaEye } from "react-icons/fa6";
 import ViewBalance from "./ViewBalance";
+import { MdAutoDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const UsersList = ({ users }) => {
   const [email, setEmail] = useState("");
@@ -18,7 +20,39 @@ const UsersList = ({ users }) => {
     setViewBalace(false);
   };
 
-  const icons = [{ icon: <FaEye />, handler: handleViewBalance }, ,];
+  const handleDelete = async (email, id) => {
+    // setDeleting(true);
+    const userConfirmed = confirm("Are you sure you want to Delete?");
+
+    if (!userConfirmed) {
+      // setDeleting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/users/${id}`, {
+        method: "DELETE",
+      });
+
+      const res = await response.json();
+      // mutate();
+      toast(res?.message);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      // setError(error?.response);
+      // setDeleting(false);
+      toast(error?.message);
+      // console.log(error?.response);
+    }
+  };
+
+  const icons = [
+    { icon: <MdAutoDelete className="text-red-600" />, handler: handleDelete },
+    { icon: <FaEye className="text-green-700" />, handler: handleViewBalance },
+  ];
 
   const renderIcon = (Icon, iconIndex, user) => (
     <td
@@ -77,7 +111,11 @@ const UsersList = ({ users }) => {
         </div>
 
         {viewBalace && (
-          <ViewBalance userEmail={email} id={id} hideForm={hideViewBalance} />
+          <ViewBalance
+            userEmailAddress={email}
+            id={id}
+            hideForm={hideViewBalance}
+          />
         )}
       </div>
     </div>

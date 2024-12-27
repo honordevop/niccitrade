@@ -7,7 +7,7 @@ import useRData from "@/hooks/useRData";
 import useSWR from "swr";
 import MoneyUpdate from "./MoneyUpdate";
 
-const ViewBalance = ({ hideForm, userEmail, id }) => {
+const ViewBalance = ({ hideForm, userEmailAddress, id }) => {
   const { data, fetchData, error: err } = useRData();
   const [loading, setLoading] = useState(true);
 
@@ -22,13 +22,13 @@ const ViewBalance = ({ hideForm, userEmail, id }) => {
   useEffect(() => {
     setLoading(true); // Set loading to true before fetching data
     try {
-      fetchData(`/api/user?email=${userEmail}`);
+      fetchData(`/api/user?email=${userEmailAddress}`);
       setLoading(false); // Set loading to false once data is fetched
     } catch (err) {
       setLoading(false); // Set loading to false even if an error occurs
       toast.error("Failed to load address");
     }
-  }, [userEmail]);
+  }, [userEmailAddress]);
 
   // Update the form fields after data is fetched
   useEffect(() => {

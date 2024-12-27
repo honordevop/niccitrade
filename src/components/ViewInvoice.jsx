@@ -148,15 +148,15 @@ const ViewInvoice = ({ hideForm, userEmail, id }) => {
                   <h4 className="font-bold">
                     Make Payment using the info below
                   </h4>
-                  <div></div>
+                  {/* <div></div> */}
                   {depositDetails.map((detail, i) => (
                     <div className="" key={i}>
                       <label htmlFor="" className="font-semibold text-sm">
                         {detail.exchange}
                       </label>
                       <div className="w-full border border-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0  rounded">
-                        <input
-                          className="mt-1 w-full p-2 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-[10px] text-gray-900"
+                        <textarea
+                          className="mt-1 w-full p-2 focus:outline-none focus:ring-0 focus:border-gray-300 rounded  text-gray-900"
                           disabled
                           name="address"
                           value={detail.address}

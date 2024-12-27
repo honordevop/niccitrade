@@ -12,6 +12,8 @@ export async function GET(request, { params }) {
 
     const invoice = await Invoice.findById(id);
 
+   
+
     return NextResponse.json({ invoice }, { status: 200 });
   } catch (error) {
     // console.log(error);

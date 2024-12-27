@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import connect from "@/Utils/db";
 import Invoice from "@/models/Invoice";
+import Users from "@/models/Users";
+import Money from "@/models/Money";
 
 export async function GET(request, { params }) {
   const { id } = await params;
@@ -10,9 +12,9 @@ export async function GET(request, { params }) {
   try {
     await connect();
 
-    const invoice = await Invoice.findById(id);
+    const user = await Users.findById(id);
 
-    return NextResponse.json({ invoice }, { status: 200 });
+    return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
     // console.log(error);
     return NextResponse.json({ message: "Database Error" }, { status: 500 });
@@ -20,7 +22,7 @@ export async function GET(request, { params }) {
 }
 
 export async function PATCH(request, { params }) {
-  const { id } = params;
+  const { id } = await params;
 
   const body = await request.json();
 
@@ -28,9 +30,9 @@ export async function PATCH(request, { params }) {
   try {
     await connect();
 
-    await Invoice.findByIdAndUpdate(id, body);
+    await Users.findByIdAndUpdate(id, body);
 
-    return NextResponse.json({ message: "Invoice Updated" }, { status: 201 });
+    return NextResponse.json({ message: "User Updated" }, { status: 201 });
   } catch (error) {
     // console.log(error);
     return NextResponse.json({ message: "Database Error" }, { status: 500 });
@@ -38,16 +40,27 @@ export async function PATCH(request, { params }) {
 }
 
 export const DELETE = async (request, { params }) => {
-  //fetch
   const { id } = params;
 
   try {
     await connect();
 
-    await Invoice.findByIdAndDelete(id);
+    // Find the user by ID to get the email
+    const user = await Users.findById(id);
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
 
-    return NextResponse.json({ message: "Invoice deleted" }, { status: 200 });
+    const { email } = user;
+
+    // Perform deletions
+    await Users.findByIdAndDelete(id);
+    await Money.findOneAndDelete({ email });
+    await Invoice.findOneAndDelete({ email });
+
+    return NextResponse.json({ message: "User and associated records deleted" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Database Error" }, { status: 500 });
+    return NextResponse.json({ message: "Database Error", error: error.message }, { status: 500 });
   }
 };
+
