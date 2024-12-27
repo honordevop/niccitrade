@@ -128,7 +128,7 @@ const ViewBalance = ({ hideForm, userEmailAddress, id }) => {
                   <MoneyUpdate
                     //   data={moneyRecord?.moneyRecord[0]}
                     hideForm={hideForm}
-                    userEmail={userEmail}
+                    userEmail={userEmailAddress}
                   />
                 )}
               </div>
