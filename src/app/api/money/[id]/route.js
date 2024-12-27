@@ -42,7 +42,7 @@ export const PATCH = async (request, { params }) => {
   const { id } = params; // Correctly extract `id` from params
   const { currency, amount } = await request.json();
 
-  console.log(`${id} ${currency} ${amount}`)
+  // console.log(`${id} ${currency} ${amount}`)
 
   try {
     await connect();

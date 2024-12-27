@@ -34,7 +34,7 @@ const AddressTable = ({ addressList, mutate }) => {
 
   const handleDelete = async (id) => {
     // setDeleting(true);
-    const userConfirmed = confirm("Are you sure you want to Address?");
+    const userConfirmed = confirm("Are you sure you want to Delete?");
 
     if (!userConfirmed) {
       // setDeleting(false);

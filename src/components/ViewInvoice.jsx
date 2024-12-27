@@ -4,10 +4,19 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import useRData from "@/hooks/useRData";
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const ViewInvoice = ({ hideForm, userEmail, id }) => {
   const { data: invoice, fetchData, error } = useRData();
   const [loading, setLoading] = useState(true);
+
+  const {
+    data,
+    mutate,
+    error: errr,
+  } = useSWR(`/api/admin/depositdetails`, fetcher);
 
   // Initialize states with empty strings or null for when data is not available
   const [invoiceNumber, setInvoiceNumber] = useState("");
@@ -16,6 +25,14 @@ const ViewInvoice = ({ hideForm, userEmail, id }) => {
   const [status, setStatus] = useState("");
   const [createdAt, setcreatedAt] = useState("");
 
+  const [depositDetails, setDepositDetails] = useState([]);
+
+  // Update exchangeRecords whenever data changes
+  useEffect(() => {
+    if (data?.depositDetails) {
+      setDepositDetails(data.depositDetails);
+    }
+  }, [data]);
   // Fetch address data when `id` changes
   useEffect(() => {
     setLoading(true); // Set loading to true before fetching data
@@ -127,10 +144,26 @@ const ViewInvoice = ({ hideForm, userEmail, id }) => {
                     </div>
                   </div>
                 </form>
-                <div className="flex-1 flex flex-col items-center justify-center">
+                <div className="flex-1 flex flex-col gap-5 justify-center">
                   <h4 className="font-bold">
                     Make Payment using the info below
                   </h4>
+                  <div></div>
+                  {depositDetails.map((detail, i) => (
+                    <div className="" key={i}>
+                      <label htmlFor="" className="font-semibold text-sm">
+                        {detail.exchange}
+                      </label>
+                      <div className="w-full border border-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0  rounded">
+                        <input
+                          className="mt-1 w-full p-2 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-[10px] text-gray-900"
+                          disabled
+                          name="address"
+                          value={detail.address}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="w-full my-4 flex items-center justify-end space-x-4">

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import connect from "@/Utils/db";
-import Invoice from "@/models/Invoice";
-import Order from "@/models/Order";
+import Deposit from "@/models/Deposit";
 
 export const GET = async (request) => {
   // const url = new URL(request.url);
@@ -12,8 +11,8 @@ export const GET = async (request) => {
   try {
     await connect();
 
-    const invoices = await Invoice.find().lean();
-    return NextResponse.json({ invoices }, { status: 200 });
+    const depositDetails = await Deposit.find().lean();
+    return NextResponse.json({ depositDetails }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Database Error" }, { status: 500 });
   }
@@ -22,19 +21,17 @@ export const GET = async (request) => {
 export const POST = async (request) => {
   const body = await request.json();
 
-  console.log(body);
+  // console.log(body);
 
   //fetch
   try {
     await connect();
-    const newInvoice = new Invoice(body);
+    const newDepositDetail = new Deposit(body);
 
-    await newInvoice.save();
-
-
+    await newDepositDetail.save();
 
     return NextResponse.json(
-      { message: "Invoice Generated" },
+      { message: "Details Saved" },
       { status: 201 }
     );
   } catch (error) {

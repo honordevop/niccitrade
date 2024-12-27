@@ -86,12 +86,12 @@ export const AdminTabsLink = [
     link: "/manage/invoices",
     slug: "invoices",
   },
-  {
-    title: "Payments",
-    icon: <BsCartCheckFill />,
-    link: "/manage/payments",
-    slug: "payments",
-  },
+  // {
+  //   title: "Payments",
+  //   icon: <BsCartCheckFill />,
+  //   link: "/manage/payments",
+  //   slug: "payments",
+  // },
   {
     title: "Deposit Details",
     icon: <HiOutlineSaveAs />,
@@ -101,7 +101,7 @@ export const AdminTabsLink = [
   {
     title: "Profile",
     icon: <FaRegUser />,
-    link: "/profile",
+    link: "/manage/profile",
     slug: "profile",
   },
 ];

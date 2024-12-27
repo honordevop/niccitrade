@@ -33,6 +33,7 @@ const OrderCart = ({ hideForm, order, userEmail }) => {
     });
   };
 
+  // console.log(inputs.bank);
   const formIsValid = (value) => value.trim() !== "";
 
   const handleSubmit = async (e) => {
@@ -70,6 +71,10 @@ const OrderCart = ({ hideForm, order, userEmail }) => {
             receive: `${order?.receiveCurrency} ${order?.receive}`,
             invoicenumber,
             email: userEmail,
+            bank: inputs.bank,
+            address: inputs.address,
+            accountname: inputs.accountname,
+            accountnum: inputs.accountnum,
           }),
         });
 

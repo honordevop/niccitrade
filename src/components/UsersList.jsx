@@ -10,8 +10,6 @@ const UsersList = ({ users }) => {
 
   const handleViewBalance = (email, id) => {
     setEmail(email);
-    setId;
-    id;
     // console.log(id);
     setViewBalace((prev) => !prev);
   };

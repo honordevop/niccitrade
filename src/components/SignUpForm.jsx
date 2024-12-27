@@ -99,7 +99,7 @@ const SignUpForm = ({ handleHideSignUpForm }) => {
       //   console.log(res.status);
       // toast(data.message);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       // setLoading(false);
       // toast.warn(error.message);
     }

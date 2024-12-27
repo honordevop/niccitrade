@@ -22,6 +22,9 @@ import ProfilePanel from "@/components/ProfilePanel";
 import AdminDesktopMenu from "@/components/AdminDesktopMenu";
 import AdminSideMenu from "@/components/AdminSideMenu";
 import UsersList from "@/components/UsersList";
+import ExchangeForm from "@/components/ExchangeForm";
+import { IoMdAddCircle } from "react-icons/io";
+import SetExchanges from "@/components/SetExchanges";
 // import ProfilePanel from "@/components/ProfilePanel";
 
 const page = () => {
@@ -30,6 +33,7 @@ const page = () => {
   const { pageLoading, offPageLoading } = useGlobalContext();
 
   const { data: session, status } = useSession();
+  const [showForm, setShowForm] = useState();
 
   const router = useRouter();
 
@@ -39,9 +43,9 @@ const page = () => {
       router.push("/auth");
     } else if (
       status === "authenticated" &&
-      session?.user.email === process.env.NEXT_PUBLIC_MAIL_CHECK
+      session?.user.email !== process.env.NEXT_PUBLIC_MAIL_CHECK
     ) {
-      router.push("/manage");
+      router.push("/auth");
     }
   }, [status, router]);
 
@@ -65,16 +69,13 @@ const page = () => {
     setShowSideMenu((prev) => !prev);
   };
 
-  // const {
-  //   data: profileData,
-  //   fetchData: validateLogin,
-  //   error: err,
-  // } = useRData();
+  const handleShowForm = () => {
+    setShowForm((prev) => !prev);
+  };
 
-  // const validate = () => {
-  //   offPageLoading();
-  //   validateLogin("//localhost:5000/@me");
-  // };
+  const hideForm = () => {
+    setShowForm(false);
+  };
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -198,10 +199,24 @@ const page = () => {
             {/* Wrapper */}
             <div className="w-full h-full">
               <div className="pl-4 w-full  overflow-y-scroll hideScrollBar">
-                <p className="text-xl font-bold ">All Registered users</p>
+                <p className="text-xl font-bold my-4">List of Exchanges</p>
 
+                <p
+                  className="w-max flex items-center gap-2 text-blue-500 cursor-pointer"
+                  onClick={() => {
+                    handleShowForm();
+                  }}
+                >
+                  <IoMdAddCircle className="text-lg my-4" />
+                  Add Exchange
+                </p>
                 <div className="">
-                  <UsersList users={users?.users} />
+                  {showForm && (
+                    <ExchangeForm users={users?.users} hideForm={hideForm} />
+                  )}
+                </div>
+                <div>
+                  <SetExchanges />
                 </div>
               </div>
             </div>

@@ -31,7 +31,19 @@ const invoiceSchema = new Schema({
     email: {
       type: String,
       required: true,
-    },
+  },   
+    address: {
+          type: String,
+        },
+        bank: {
+          type: String,
+        },
+        accountname: {
+          type: String,
+        },
+        accountnum: {
+          type: String,
+        },
       },
   { timestamps: true }
 );

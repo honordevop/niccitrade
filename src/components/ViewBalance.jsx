@@ -9,7 +9,7 @@ import MoneyUpdate from "./MoneyUpdate";
 
 const ViewBalance = ({ hideForm, userEmail, id }) => {
   const { data, fetchData, error: err } = useRData();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Initialize states with empty strings or null for when data is not available
   const [fullname, setFullname] = useState("");
@@ -124,11 +124,13 @@ const ViewBalance = ({ hideForm, userEmail, id }) => {
                   ))}
                 </div> */}
 
-                <MoneyUpdate
-                  //   data={moneyRecord?.moneyRecord[0]}
-                  hideForm={hideForm}
-                  userEmail={userEmail}
-                />
+                {!loading && (
+                  <MoneyUpdate
+                    //   data={moneyRecord?.moneyRecord[0]}
+                    hideForm={hideForm}
+                    userEmail={userEmail}
+                  />
+                )}
               </div>
             </form>
           )}

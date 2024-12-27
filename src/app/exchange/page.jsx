@@ -31,7 +31,7 @@ const page = () => {
 
   const router = useRouter();
 
-  console.log(status);
+  // console.log(status);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth");

@@ -84,7 +84,7 @@ const page = () => {
 
   // console.log(pageLoading);
 
-  console.log(userData);
+  // console.log(userData);
 
   useEffect(() => {
     if (userData?.user) {

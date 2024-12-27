@@ -7,35 +7,26 @@ import { BeatLoader, ClimbingBoxLoader } from "react-spinners";
 import { MdOutlineCloudDone } from "react-icons/md";
 import { currencyAddress } from "@/Utils/store";
 
-const AddressForm = ({ hideForm, mutate, userEmail }) => {
+const ExchangeForm = ({ hideForm }) => {
   const [regSuccess, setRegSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const {
-    value: currency,
-    isValid: currencyIsValid,
-    hasError: currencyHasError,
-    valueChangeHandler: currencyChangeHandler,
-    inputBlurHandler: currencyBlurHandler,
-    reset: currencyInputReset,
+    value: exchange,
+    isValid: exchangeIsValid,
+    hasError: exchangeHasError,
+    valueChangeHandler: exchangeChangeHandler,
+    inputBlurHandler: exchangeBlurHandler,
+    reset: exchangeInputReset,
   } = useInput((value) => value.trim() !== "");
 
   const {
-    value: address,
-    isValid: addressIsValid,
-    hasError: addressHasError,
-    valueChangeHandler: addressChangeHandler,
-    inputBlurHandler: addressBlurHandler,
-    reset: addressInputReset,
-  } = useInput((value) => value.trim() !== "");
-
-  const {
-    value: desc,
-    isValid: descIsValid,
-    hasError: descHasError,
-    valueChangeHandler: descChangeHandler,
-    inputBlurHandler: descBlurHandler,
-    reset: descInputReset,
+    value: amount,
+    isValid: amountIsValid,
+    hasError: amountHasError,
+    valueChangeHandler: amountChangeHandler,
+    inputBlurHandler: amountBlurHandler,
+    reset: amountInputReset,
   } = useInput((value) => value.trim() !== "");
 
   const [error, setError] = useState();
@@ -52,7 +43,7 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
     });
   };
 
-  let formIsValid = currencyIsValid && addressIsValid && descIsValid;
+  let formIsValid = exchangeIsValid && amountIsValid;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,20 +55,18 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/address", {
+      const res = await fetch("/api/admin/exchanges", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          currency,
-          address,
-          desc,
-          email: userEmail,
+          exchange,
+          amount,
         }),
       });
 
-      mutate();
+      //   mutate();
       const data = await res.json();
       // console.log(data);
       toast(data?.message);
@@ -203,67 +192,40 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
               <div className="flex flex-col md:flex-row justify-between my-4 w-full gap-4">
                 <div className="flex-1 flex flex-col">
                   <label htmlFor="" className="font-semibold">
-                    Currency
+                    Exchange
                   </label>
-                  <select
-                    name="State"
+                  <input
+                    name="exchange"
+                    value={exchange}
                     className="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                    onChange={currencyChangeHandler}
-                    onBlur={currencyBlurHandler}
-                  >
-                    <option value="">Select Currency</option>
-                    {currencyAddress?.map((cur, i) => (
-                      <option key={i}>{`${cur}`}</option>
-                    ))}
-                  </select>
-                  {currencyHasError && (
-                    <p className="text-blue-500">Select Currency Type</p>
+                    onChange={exchangeChangeHandler}
+                    onBlur={exchangeBlurHandler}
+                  />
+                  {exchangeHasError && (
+                    <p className="text-blue-500">Enter valid exchange name</p>
                   )}
                 </div>
               </div>
 
               <div className="">
                 <label htmlFor="" className="font-semibold">
-                  Address
+                  Amount (USD)
                 </label>
                 <div className="w-full border border-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0  rounded">
-                  <textarea
+                  <input
                     className="w-full p-2  focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                    placeholder="Enter Address"
+                    placeholder="Enter value"
                     required
-                    name="address"
+                    name="amount"
                     // onChange={handleChange}
-                    value={address}
-                    onChange={addressChangeHandler}
-                    onBlur={addressBlurHandler}
-                  ></textarea>
+                    value={amount}
+                    onChange={amountChangeHandler}
+                    onBlur={amountBlurHandler}
+                  />
                 </div>
-                {addressHasError && (
+                {amountHasError && (
                   <p className="text-blue-500">Enter a valid input</p>
                 )}
-              </div>
-
-              <div className="flex flex-col md:flex-row justify-between my-4 w-full gap-4">
-                <div className="flex-1 flex flex-col">
-                  <label htmlFor="" className="font-semibold">
-                    Description
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    name="desc"
-                    className="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                    placeholder="The address decription"
-                    // onChange={handleChange}
-                    value={desc}
-                    onBlur={descBlurHandler}
-                    onChange={descChangeHandler}
-                  />
-
-                  {currencyHasError && (
-                    <p className="text-blue-500">Enter a valid Input</p>
-                  )}
-                </div>
               </div>
 
               <div className="w-full my-4 flex items-center justify-end space-x-4">
@@ -309,7 +271,7 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
         <div className=" bg-white w-[70%] h-[30%] flex flex-col items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center">
             <MdOutlineCloudDone color="#293E52" className="text-7xl" />
-            <p className="text-lg font-semibold">Address Saved Succesfully</p>
+            <p className="text-lg font-semibold">Exchange Saved Succesfully</p>
             <div
               className="px-5 py-2 bg-blue-600 font-semibold text-lg text-white rounded-lg cursor-pointer"
               onClick={() => {
@@ -326,4 +288,4 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
   );
 };
 
-export default AddressForm;
+export default ExchangeForm;

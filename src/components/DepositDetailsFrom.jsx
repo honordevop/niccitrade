@@ -7,17 +7,17 @@ import { BeatLoader, ClimbingBoxLoader } from "react-spinners";
 import { MdOutlineCloudDone } from "react-icons/md";
 import { currencyAddress } from "@/Utils/store";
 
-const AddressForm = ({ hideForm, mutate, userEmail }) => {
+const DepositDetailsForm = ({ hideForm }) => {
   const [regSuccess, setRegSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const {
-    value: currency,
-    isValid: currencyIsValid,
-    hasError: currencyHasError,
-    valueChangeHandler: currencyChangeHandler,
-    inputBlurHandler: currencyBlurHandler,
-    reset: currencyInputReset,
+    value: exchange,
+    isValid: exchangeIsValid,
+    hasError: exchangeHasError,
+    valueChangeHandler: exchangeChangeHandler,
+    inputBlurHandler: exchangeBlurHandler,
+    reset: exchangeInputReset,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -27,15 +27,6 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
     valueChangeHandler: addressChangeHandler,
     inputBlurHandler: addressBlurHandler,
     reset: addressInputReset,
-  } = useInput((value) => value.trim() !== "");
-
-  const {
-    value: desc,
-    isValid: descIsValid,
-    hasError: descHasError,
-    valueChangeHandler: descChangeHandler,
-    inputBlurHandler: descBlurHandler,
-    reset: descInputReset,
   } = useInput((value) => value.trim() !== "");
 
   const [error, setError] = useState();
@@ -52,7 +43,7 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
     });
   };
 
-  let formIsValid = currencyIsValid && addressIsValid && descIsValid;
+  let formIsValid = exchangeIsValid && addressIsValid;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,20 +55,18 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/address", {
+      const res = await fetch("/api/admin/depositdetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          currency,
+          exchange,
           address,
-          desc,
-          email: userEmail,
         }),
       });
 
-      mutate();
+      //   mutate();
       const data = await res.json();
       // console.log(data);
       toast(data?.message);
@@ -96,57 +85,6 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
   //     errorMessage: loginErrorMessage,
   //     setErrorMessage: setLoginErrorMessage,
   //   } = useError();
-
-  const createEvent = async () => {
-    setLoading(true);
-    // console.log(`${email} + ${password} + ${firstName} + ${lastName} `);
-    try {
-      const res = await fetch("/api/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          duration,
-          image,
-          description,
-          facilitator,
-          time,
-          mode,
-          location,
-          link,
-        }),
-      });
-      // const data = await res.json();
-      const data = await res.json();
-      //   console.log(data);
-      toast(data.message);
-      //   sendmail();
-      //   dateInputReset();
-      //   titleInputReset();
-      //   imageInputReset();
-      //   descriptionInputReset();
-      //   facilitatorInputReset();
-      //   timeInputReset();
-      //   modeInputReset();
-      //   locationInputReset();
-      //   linkInputReset();
-      setLoading(false);
-      setRegSuccess(true);
-      // setTimeout(() => {
-      //   if (res.status === 201) {
-      //     router.push("/dashboard/account?success=Account has been created");
-      //   }
-      // }, 3000);
-      // toast("Account Created Successfully");
-    } catch (error) {
-      // console.log(error);
-      //   setLoginErrorMessage(error.response.data.message);
-      setLoading(false);
-      toast.warn(error.message);
-    }
-  };
 
   //   const formSubmitHandler = (event) => {
   //     event.preventDefault();
@@ -203,21 +141,18 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
               <div className="flex flex-col md:flex-row justify-between my-4 w-full gap-4">
                 <div className="flex-1 flex flex-col">
                   <label htmlFor="" className="font-semibold">
-                    Currency
+                    Exchange
                   </label>
-                  <select
-                    name="State"
+                  <input
+                    name="exchange"
+                    value={exchange}
+                    placeholder="Enter Exchange Name"
                     className="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                    onChange={currencyChangeHandler}
-                    onBlur={currencyBlurHandler}
-                  >
-                    <option value="">Select Currency</option>
-                    {currencyAddress?.map((cur, i) => (
-                      <option key={i}>{`${cur}`}</option>
-                    ))}
-                  </select>
-                  {currencyHasError && (
-                    <p className="text-blue-500">Select Currency Type</p>
+                    onChange={exchangeChangeHandler}
+                    onBlur={exchangeBlurHandler}
+                  />
+                  {exchangeHasError && (
+                    <p className="text-blue-500">Enter valid exchange name</p>
                   )}
                 </div>
               </div>
@@ -227,43 +162,20 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
                   Address
                 </label>
                 <div className="w-full border border-gray-300 focus:border-gray-300 focus:outline-none focus:ring-0  rounded">
-                  <textarea
+                  <input
                     className="w-full p-2  focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                    placeholder="Enter Address"
+                    placeholder="Enter Deposit Info"
                     required
                     name="address"
                     // onChange={handleChange}
                     value={address}
                     onChange={addressChangeHandler}
                     onBlur={addressBlurHandler}
-                  ></textarea>
+                  />
                 </div>
                 {addressHasError && (
                   <p className="text-blue-500">Enter a valid input</p>
                 )}
-              </div>
-
-              <div className="flex flex-col md:flex-row justify-between my-4 w-full gap-4">
-                <div className="flex-1 flex flex-col">
-                  <label htmlFor="" className="font-semibold">
-                    Description
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    name="desc"
-                    className="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                    placeholder="The address decription"
-                    // onChange={handleChange}
-                    value={desc}
-                    onBlur={descBlurHandler}
-                    onChange={descChangeHandler}
-                  />
-
-                  {currencyHasError && (
-                    <p className="text-blue-500">Enter a valid Input</p>
-                  )}
-                </div>
               </div>
 
               <div className="w-full my-4 flex items-center justify-end space-x-4">
@@ -309,7 +221,7 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
         <div className=" bg-white w-[70%] h-[30%] flex flex-col items-center justify-center">
           <div className="flex flex-col gap-4 items-center justify-center">
             <MdOutlineCloudDone color="#293E52" className="text-7xl" />
-            <p className="text-lg font-semibold">Address Saved Succesfully</p>
+            <p className="text-lg font-semibold"> Record Saved Succesfully</p>
             <div
               className="px-5 py-2 bg-blue-600 font-semibold text-lg text-white rounded-lg cursor-pointer"
               onClick={() => {
@@ -326,4 +238,4 @@ const AddressForm = ({ hideForm, mutate, userEmail }) => {
   );
 };
 
-export default AddressForm;
+export default DepositDetailsForm;

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { IoArrowForward, IoArrowForwardCircleSharp } from "react-icons/io5";
+import useSWR from "swr";
 
 const exchange = [
   {
@@ -24,13 +25,13 @@ const exchange = [
   },
 ];
 
-const baseline = [
-  { name: "BTC(USD)", value: 1.0 },
-  { name: "USDT-TRC20", value: 1.0 },
-  { name: "USDT-ERC20-BC", value: 1.0 },
-  { name: "TRON", value: 0.23 },
-  { name: "NGN", value: 0.00065 },
-];
+// const baseline = [
+//   { name: "BTC(USD)", value: 98514.59 },
+//   { name: "USDT-TRC20", value: 1.0 },
+//   { name: "USDT-ERC20-BC", value: 1.0 },
+//   { name: "TRON", value: 0.23 },
+//   { name: "NGN", value: 0.00065 },
+// ];
 
 // const baseline = [
 //   { name: "BTC(USD)", value: 1622.0 },
@@ -39,6 +40,7 @@ const baseline = [
 //   { name: "TRON", value: 0.23 },
 //   { name: "NGN", value: 0.00065 },
 // ];
+const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const Calculator = ({ showOrder, getOrderdetails }) => {
   const [selectedKey, setSelectedKey] = useState("NGN");
@@ -47,8 +49,41 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
   const [receive, setReceive] = useState("");
   const [sendValue, setSendValue] = useState(1000);
   const [isChecked, setIsChecked] = useState(false);
+  const [baseline, setBaseline] = useState([]);
 
   const session = useSession();
+
+  const { data, mutate, error } = useSWR(`/api/admin/exchanges`, fetcher);
+
+  useEffect(() => {
+    if (data?.exchanges) {
+      // setExchangeRecords(data.exchanges);
+      setBaseline([
+        {
+          name: data?.exchanges[0]?.exchange,
+          value: parseFloat(data?.exchanges[0]?.amount),
+        },
+        {
+          name: data?.exchanges[1]?.exchange,
+          value: parseFloat(data?.exchanges[1]?.amount),
+        },
+        {
+          name: data?.exchanges[2]?.exchange,
+          value: parseFloat(data?.exchanges[2]?.amount),
+        },
+        {
+          name: data?.exchanges[3]?.exchange,
+          value: parseFloat(data?.exchanges[3]?.amount),
+        },
+        {
+          name: data?.exchanges[4]?.exchange,
+          value: parseFloat(data?.exchanges[4]?.amount),
+        },
+      ]);
+    }
+  }, [data]);
+
+  // console.log(baseline);
 
   useEffect(() => {
     const selectedItem = exchange.find((item) => item[selectedKey]);
@@ -68,7 +103,8 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
         (item) => item.name === selectedName
       );
       if (baselineOption) {
-        const sendValueInNGN = sendValue / 1549.54;
+        const sendValueInNGN =
+          sendValue / parseFloat(data?.exchanges[5]?.amount);
         result = sendValueInNGN / baselineOption.value;
       }
     } else if (
@@ -81,7 +117,7 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
       const baselineOption = baseline.find((item) => item.name === selectedKey);
       if (baselineOption) {
         const sendValueInNGN = sendValue * baselineOption.value;
-        result = sendValueInNGN * 1549.54;
+        result = sendValueInNGN * parseFloat(data?.exchanges[5]?.amount);
       }
     }
 

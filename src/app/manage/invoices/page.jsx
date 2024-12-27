@@ -19,15 +19,26 @@ import DesktopMenu from "@/components/DesktopMenu";
 import SideMenu from "@/components/SideMenu";
 import { IoMenu } from "react-icons/io5";
 import { MdOutlineClose } from "react-icons/md";
-import ProfilePanel from "@/components/ProfilePanel";
+import { IoMdAddCircle } from "react-icons/io";
+import AddressForm from "@/components/AddressForm";
+import AddressTable from "@/components/AddreessTable";
+import useSWR from "swr";
+import InvoiceTable from "@/components/InvoiceTable";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
+import AllInvoiceTable from "@/components/AllInvoiceTable";
+import AdminSideMenu from "@/components/AdminSideMenu";
+import AdminDesktopMenu from "@/components/AdminDesktopMenu";
 // import ProfilePanel from "@/components/ProfilePanel";
 
+const fetcher = (url) => fetch(url).then((r) => r.json());
 const page = () => {
   const pathname = usePathname();
 
   const { pageLoading, offPageLoading } = useGlobalContext();
 
   const { data: session, status } = useSession();
+
+  const [showNewForm, setShowNewForm] = useState(false);
 
   const router = useRouter();
 
@@ -37,9 +48,9 @@ const page = () => {
       router.push("/auth");
     } else if (
       status === "authenticated" &&
-      session?.user.email === process.env.NEXT_PUBLIC_MAIL_CHECK
+      session?.user.email !== process.env.NEXT_PUBLIC_MAIL_CHECK
     ) {
-      router.push("/manage");
+      router.push("/auth");
     }
   }, [status, router]);
 
@@ -62,6 +73,10 @@ const page = () => {
     setShowSideMenu((prev) => !prev);
   };
 
+  const hideNewAddressFormHandler = () => {
+    setShowNewForm(false);
+  };
+
   // const {
   //   data: profileData,
   //   fetchData: validateLogin,
@@ -82,9 +97,18 @@ const page = () => {
     // };
   }, [session?.user?.email]);
 
+  const {
+    data: invoices,
+    mutate,
+    error,
+  } = useSWR(`/api/admin/invoice`, fetcher);
+  const sortedData = invoices?.invoices?.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
   // console.log(pageLoading);
 
-  // console.log(userData);
+  // console.log(addresses?.addresses);
 
   useEffect(() => {
     if (userData?.user) {
@@ -92,10 +116,6 @@ const page = () => {
       offPageLoading();
     }
   }, [userData?.user]);
-
-  useEffect(() => {
-    handleWidthChage();
-  }, [changeWidth, leftWidth]);
 
   // if (err.status === 401) {
   //   console.log(err.status);
@@ -112,16 +132,8 @@ const page = () => {
     setChangeWidth((prev) => !prev);
   };
 
-  const handleWidthChage = () => {
-    // localStorage.setItem("changeWidth", changeWidth);
-    if (changeWidth) {
-      setLefttWidth("3");
-      setAddPadding("10");
-    }
-    if (!changeWidth) {
-      setLefttWidth("15");
-      setAddPadding("10");
-    }
+  const showNewAddressForm = () => {
+    setShowNewForm((prev) => !prev);
   };
 
   // console.log(userData.user);
@@ -138,13 +150,13 @@ const page = () => {
   }
 
   return (
-    <div className="h-screen w-full relative left-0 flex flex-col items-center">
-      <div className="w-full h-max py-4 px-2 md:px-8 bg-blue-600 flex items-center justify-between">
+    <div className="w-full h-max relative left-0 flex flex-col items-center overflow-y-scroll">
+      <div className="w-full h-full py-4 px-2 md:px-8 bg-blue-600 flex items-center justify-between">
         <p
           className="text-lg md:text-xl font-bold text-white"
           style={{ paddingLeft: `${addPadding}px` }}
         >
-          Trade
+          Administrator
         </p>
 
         <div className="flex items-center justify-center gap-2">
@@ -159,7 +171,7 @@ const page = () => {
         </div>
 
         {showSideMenu && (
-          <SideMenu
+          <AdminSideMenu
             activateSideMenu={activateSideMenu}
             showSideMenu={showSideMenu}
           />
@@ -175,20 +187,34 @@ const page = () => {
       </div>
       <div className="w-full h-screen flex items-center font-space_grotesk bg-white ">
         {/* Left Side - Desktop Menu*/}
-        <DesktopMenu />
+        <AdminDesktopMenu />
 
         {/* Right Side */}
         <div className={` w-full h-full`}>
           {/* Wrapper */}
           <div className="w-full h-full">
-            <div className="pl-4 w-full h-[85%] md:h-[90%] overflow-y-scroll hideScrollBar">
-              <p className="text-xl font-bold hideDivMax1024">
-                {/* {currentPage.charAt(0).toUpperCase() +
-                    currentPage.slice(1).toLowerCase()} */}
+            <div className="pl-4 mt-4 h-[70%] md:h-[80%] overflow-y-scroll hideScrollBar">
+              <p className=" flex items-center gap-2 text-blue-500 cursor-pointer">
+                <FaFileInvoiceDollar className="text-lg" />
+                Invoices
               </p>
 
               <div className="">
+                {showNewForm && (
+                  <AddressForm
+                    hideForm={hideNewAddressFormHandler}
+                    userEmail={session?.user?.email}
+                    mutate={mutate}
+                  />
+                )}
                 {/* <ProfilePanel profileData={userData?.user} /> */}
+              </div>
+
+              <div className="overflow-x-scroll h-[90vh]">
+                <AllInvoiceTable
+                  invoiceList={invoices?.invoices}
+                  mutate={mutate}
+                />
               </div>
             </div>
           </div>

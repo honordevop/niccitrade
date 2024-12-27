@@ -7,8 +7,9 @@ import EditAddress from "./EditAddress";
 import { FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
 import ViewInvoice from "./ViewInvoice";
+import UpdateInvoice from "./UpdateInvoice";
 
-const InvoiceTable = ({ invoiceList, mutate }) => {
+const AllInvoiceTable = ({ invoiceList, mutate }) => {
   const [id, setId] = useState("");
   const [viewInvoice, setViewInvoice] = useState(false);
   const [viewEditAddress, setViewEditAddress] = useState(false);
@@ -91,6 +92,9 @@ const InvoiceTable = ({ invoiceList, mutate }) => {
         title={invc?.expired === true ? "Expired" : "Pending"}
       >
         <span
+          // style={{
+          //   backgroundColor: invc?.expired === true ? "red" : "green",
+          // }}
           className={`px-2 rounded-sm text-white ${
             invc?.status === "Expired" ? "bg-red-600" : "bg-green-800"
           }`}
@@ -136,12 +140,12 @@ const InvoiceTable = ({ invoiceList, mutate }) => {
         </thead>
         <tbody className="h-max">{invoiceList?.map(renderRow)}</tbody>
       </table>
-      {viewInvoice && <ViewInvoice id={id} hideForm={hideViewInvoice} />}
-      {viewEditAddress && (
+      {viewInvoice && <UpdateInvoice id={id} hideForm={hideViewInvoice} />}
+      {/* {viewEditAddress && (
         <EditAddress id={id} hideForm={hideViewEditAddress} mutate={mutate} />
-      )}
+      )} */}
     </div>
   );
 };
 
-export default InvoiceTable;
+export default AllInvoiceTable;
