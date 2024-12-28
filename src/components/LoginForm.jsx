@@ -168,13 +168,13 @@ const LoginForm = ({ handleShowSignUpForm }) => {
                   )}
                 </div>
               </div>
-              <Link href="/passwordrecovery" className="flex flex-col my-4">
+              {/* <Link href="/" className="flex flex-col my-4">
                 <div>
                   <p className="text-blue-600 cursor-pointer">
                     Forgot Password? Recover here
                   </p>
                 </div>
-              </Link>
+              </Link> */}
               {error && <p className="text-blue-600">{error}</p>}
 
               <div className="flex items-center">
