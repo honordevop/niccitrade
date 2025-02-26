@@ -35,7 +35,7 @@ const Navbar = () => {
     <div className="w-full px-5 bg-white min-h-20 flex flex-col items-center justify-center box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 10px 0 rgba(0, 0, 0, 0.06); relative">
       <div className="container flex items-center justify-between">
         <div className="flex gap-4 items-center">
-          <div className="font-bold text-lg primaryColor">NICCI</div>
+          <div className="font-bold text-lg primaryColor">CHI EXCHANGE</div>
           <div className="font-semibold hidden md:block">1 BTC (USD) = ?</div>
         </div>
         <div className="hidden md:block">

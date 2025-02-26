@@ -53,7 +53,7 @@ const Footer = () => {
       <div className="w-full py-9 border-t-2 flex justify-center">
         <div className="container text-center md:text-left px-5">
           <p>
-            This application is licensed to Nicci Exchange © 2024. Trade. All
+            This application is licensed to CHI Exchange © 2024. Trade. All
             rights reserved.
           </p>
         </div>
