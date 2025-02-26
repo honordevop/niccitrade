@@ -47,7 +47,7 @@ const page = () => {
     ) {
       router.push("/auth");
     }
-  }, [status, session]);
+  }, [status, session, router]);
 
   // console.log(`${status} ${session}`);
 

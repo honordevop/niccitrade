@@ -42,7 +42,7 @@ const page = () => {
     ) {
       router.push("/manage");
     }
-  }, [status, session]);
+  }, [status, session, router]);
 
   // console.log(`${status} ${session}`);
 
@@ -51,7 +51,7 @@ const page = () => {
 
   const { data: userData, fetchData, error: err } = useRData();
 
-  // console.log(session);
+  console.log(session);
 
   const [addPadding, setAddPadding] = useState("10");
   const [leftWidth, setLefttWidth] = useState(15);
@@ -85,7 +85,7 @@ const page = () => {
 
   // console.log(pageLoading);
 
-  // console.log(userData?.user);
+  console.log(userData?.user);
 
   useEffect(() => {
     if (userData?.user) {
