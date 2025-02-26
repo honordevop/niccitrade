@@ -47,7 +47,7 @@ const page = () => {
     ) {
       router.push("/manage");
     }
-  }, [status, router]);
+  }, [status, session]);
 
   // console.log(`${status} ${session}`);
 

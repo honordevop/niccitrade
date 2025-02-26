@@ -27,7 +27,7 @@ const LoginForm = ({ handleShowSignUpForm }) => {
     ) {
       router.push("/manage");
     }
-  }, [session.status, router]);
+  }, [session.status, session]);
   const [passwordType, setPasswordType] = useState("password");
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");

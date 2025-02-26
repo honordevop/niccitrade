@@ -29,7 +29,7 @@ const Navbar = () => {
     ) {
       router.push("/manage");
     }
-  }, [status, router]);
+  }, [status, session]);
 
   return (
     <div className="w-full px-5 bg-white min-h-20 flex flex-col items-center justify-center box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 10px 0 rgba(0, 0, 0, 0.06); relative">

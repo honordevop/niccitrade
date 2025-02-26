@@ -32,6 +32,7 @@ const page = () => {
   const router = useRouter();
 
   // console.log(status);
+  // console.log(session);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth");
@@ -41,7 +42,7 @@ const page = () => {
     ) {
       router.push("/manage");
     }
-  }, [status, router]);
+  }, [status, session]);
 
   // console.log(`${status} ${session}`);
 

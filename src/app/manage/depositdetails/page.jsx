@@ -49,7 +49,7 @@ const page = () => {
     ) {
       router.push("/auth");
     }
-  }, [status, router]);
+  }, [status, session]);
 
   // console.log(`${status} ${session}`);
 
