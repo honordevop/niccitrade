@@ -47,7 +47,7 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
   const [options, setOptions] = useState(exchange[0].NGN);
   const [selectedName, setSelectedName] = useState(options[0]);
   const [receive, setReceive] = useState("");
-  const [sendValue, setSendValue] = useState(1000);
+  const [sendValue, setSendValue] = useState(14990);
   const [fee, setFee] = useState();
   const [isChecked, setIsChecked] = useState(false);
   const [baseline, setBaseline] = useState([]);
@@ -147,6 +147,11 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
     // console.log(
     //   `Send us ${sendValue} ${selectedKey} and Receive ${receive} ${selectedName}`
     // );
+    if (sendValue < 14990 || sendValue > 50000000) {
+      alert("Currency exchange limit: NGN [ 14,990 - 50,000,000 ].");
+      return;
+    }
+
     getOrderdetails(sendValue, selectedKey, receive, selectedName);
     showOrder();
   };
@@ -162,9 +167,13 @@ const Calculator = ({ showOrder, getOrderdetails }) => {
         <div className="">Send Us</div>
         <div className="flex gap-3 items-center justify-center">
           <input
-            type="text"
+            type="number"
             value={sendValue}
-            onChange={(e) => setSendValue(e.target.value)}
+            onChange={(e) => {
+              let value = e.target.value;
+
+              setSendValue(value);
+            }}
             className="outline-none p-2 rounded-md border w-[100px] md:w-[160px]"
           />
           <select

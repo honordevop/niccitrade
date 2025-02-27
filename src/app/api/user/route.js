@@ -8,17 +8,17 @@ export const GET = async (request) => {
   const url = new URL(request.url);
   const email = url.searchParams.get("email");
 
-  console.log("Received request for email:", email); // ✅ Log the incoming request
+  // console.log("Received request for email:", email); // ✅ Log the incoming request
 
   try {
     await connect();
     
     const user = await Users.findOne({ email }).lean();
     
-    console.log("Fetched user data from DB:", user); // ✅ Log the user data fetched from MongoDB
+    // console.log("Fetched user data from DB:", user); // ✅ Log the user data fetched from MongoDB
     
     if (!user) {
-      console.log("User not found for email:", email); // ✅ Log if user is not found
+      // console.log("User not found for email:", email); // ✅ Log if user is not found
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
@@ -34,7 +34,7 @@ export const GET = async (request) => {
       },
     });
   } catch (error) {
-    console.error("Error fetching user:", error); // ✅ Log any database errors
+    // console.error("Error fetching user:", error); // ✅ Log any database errors
     return NextResponse.json({ message: "Database Error" }, { status: 500 });
   }
 };
@@ -42,7 +42,7 @@ export const GET = async (request) => {
 export const PATCH = async (request) => {
   const { email, password } = await request.json();
 
-  console.log("Received password update request for email:", email); // ✅ Log request
+  // console.log("Received password update request for email:", email); // ✅ Log request
 
   await connect();
 
@@ -56,18 +56,18 @@ export const PATCH = async (request) => {
         { password: hashedPassword }
       );
 
-      console.log("Password updated successfully for email:", email); // ✅ Log password update success
+      // console.log("Password updated successfully for email:", email); // ✅ Log password update success
       
       return NextResponse.json(
         { message: "Password Changed successfully" },
         { status: 201 }
       );
     } catch (error) {
-      console.error("Error updating password:", error); // ✅ Log any database errors
+      // console.error("Error updating password:", error); // ✅ Log any database errors
       return NextResponse.json({ message: "Database Error" }, { status: 500 });
     }
   } else {
-    console.log("User not found for email:", email); // ✅ Log if user not found
+    // console.log("User not found for email:", email); // ✅ Log if user not found
     return new NextResponse("User not found", { status: 404 });
   }
 };

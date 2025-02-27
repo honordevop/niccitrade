@@ -89,19 +89,31 @@ const AllInvoiceTable = ({ invoiceList, mutate }) => {
       <td className="px-6 border py-2 whitespace-nowrap">{invc?.receive}</td>
       <td
         className="px-6 border py-2 whitespace-nowrap"
-        title={invc?.expired === true ? "Expired" : "Pending"}
+        title={
+          invc?.status === "Expired"
+            ? "Expired"
+            : invc?.status === "Approved"
+            ? "Approved"
+            : "Pending"
+        }
       >
         <span
-          // style={{
-          //   backgroundColor: invc?.expired === true ? "red" : "green",
-          // }}
           className={`px-2 rounded-sm text-white ${
-            invc?.status === "Expired" ? "bg-red-600" : "bg-green-800"
+            invc?.status === "Expired"
+              ? "bg-red-600"
+              : invc?.status === "Approved"
+              ? "bg-green-800"
+              : "bg-blue-600"
           }`}
         >
-          {invc?.status === "Expired" ? "E" : "P"}
+          {invc?.status === "Expired"
+            ? "E"
+            : invc?.status === "Approved"
+            ? "A"
+            : "P"}
         </span>
       </td>
+
       <td className="px-6 border py-2 whitespace-nowrap">{invc?.status}</td>
       <td className="px-6 border py-2 whitespace-nowrap">
         {invc?.createdAt.slice(0, 10)}

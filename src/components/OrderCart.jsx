@@ -7,15 +7,14 @@ import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 function generateRandomCode() {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
-  for (let i = 0; i < 6; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters[randomIndex];
+  for (let i = 0; i < 8; i++) {
+    const randomDigit = Math.floor(Math.random() * 10); // Generates a digit from 0-9
+    result += randomDigit;
   }
   return result;
 }
+
 const OrderCart = ({ hideForm, order, userEmail }) => {
   //   console.log(userEmail);
   const [loading, setLoading] = useState(false);
